@@ -1,0 +1,127 @@
+{
+  // Place your repo-snippets 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+  // Placeholders with the same ids are connected.
+  //
+  // ts
+  "表格": {
+    "scope": "typescript",
+    "prefix": "zr-table",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "纯净表格组件片段"
+  },
+  "表格模板": {
+    "scope": "typescript",
+    "prefix": "zr-table-zr",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "纯净表格模板片段"
+  },
+  "fb.group": {
+    "scope": "typescript",
+    "prefix": "zr-fb-group",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "快速用FormBuilder创建FormGroup"
+  },
+  "fb.array": {
+    "scope": "typescript",
+    "prefix": "zr-fb-group",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "快速用FormBuilder创建FormArray"
+  },
+  "ngZorro模态框": {
+    "scope": "typescript",
+    "prefix": "zr-modal",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "快速用"
+  },
+  "ngZorro确认框": {
+    "scope": "typescript",
+    "prefix": "zr-modal",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "快速用"
+  },
+  "成功消息": {
+    "scope": "typescript",
+    "prefix": "zr-msg",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "message"
+  },
+  "失败消息": {
+    "scope": "typescript",
+    "prefix": "zr-msg",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "message"
+  },
+  "快速接口get方法": {
+    "scope": "typescript",
+    "prefix": "zr-",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "Service中快速写get请求函数"
+  },
+  "快速接口post方法": {
+    "scope": "typescript",
+    "prefix": "zr-",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "Service中快速写post请求函数"
+  },
+  "Observable订阅": {
+    "scope": "typescript",
+    "prefix": "zr-",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "调接口"
+  },
+  "依赖注入": {
+    "scope": "typescript",
+    "prefix": "priv",
+    "body": [
+      "private $1Service: $1Service,",
+      "$2"
+    ],
+    "description": "调接口"
+  },
+  "路由模块": {
+    "scope": "typescript",
+    "prefix": "zr-",
+    "body": [
+      "console.log('$1');",
+      "$2"
+    ],
+    "description": "new routing"
+  },
+}
