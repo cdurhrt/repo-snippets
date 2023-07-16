@@ -9,18 +9,18 @@
   // ts
   "表格": {
     "scope": "typescript",
-    "prefix": "zr-table",
+    "prefix": "zr-table-ts",
     "body": [
-      "console.log('$1');",
+      "message: MessageService;\nloading = false;\ntotal = 0;\ncheckedSize = 0;\norders: Order[] = [];\npageIndex = 1;\npageSize = 10;\nparams!: NzTableQueryParams;\nCollapseToolbarLayout = CollapseToolbarLayout;\nqueryTemplates: QueryTemplate[] = [\n  {\n    name: 'Default',\n    template: {\n      op: 'and',\n      rules: [{ field: 'subject', op: 'cn', data: '' }],\n      groups: []\n    }\n  }\n];\n\n@ViewChild('zrTableDirective') zrTableDirective!: ZrTableDirective;\n@ViewChild('basicTable') zrTableComponent!: ZrTableComponent<Order>;\nmode: QueryMode = QueryMode.plainCollapse;\n\nconstructor(\n  private ordersService: OrdersService,\n  private messageFactory: MessageFactoryService,\n  private changeDetectorRef: ChangeDetectorRef\n) {\n  this.message = this.messageFactory.getMessage('');\n}\n\nngOnInit(): void {}\n\nngAfterViewInit() {\n  this.changeDetectorRef.detectChanges();\n}\n\nclearAllChecked(): void {\n  this.zrTableComponent.clearAllChecked();\n}\n\nloadList(event: any) {\n  const params = event.page;\n  this.pageIndex = params.pageIndex;\n  this.pageSize = params.pageSize;\n  this.loading = true;\n\n  this.ordersService\n    .getOrders(params)\n    .pipe(finalize(() => (this.loading = false)))\n    .subscribe(\n      response => {\n        this.total = response.count;\n        response.data.forEach(item => {\n          item.checked = false;\n        });\n        this.orders = response.data;\n      },\n      error => this.message.error(['', error])\n    );\n}\n\nselectData(row: any) {\n  this.checkedSize = row.length;\n}",
       "$2"
     ],
     "description": "纯净表格组件片段"
   },
   "表格模板": {
-    "scope": "typescript",
-    "prefix": "zr-table-zr",
+    "scope": "html",
+    "prefix": "zr-table-html",
     "body": [
-      "console.log('$1');",
+      "<div class=\"scrollbar zr-portlet zr-portlet_content p-0\">\n  <ngx-query\n    #ngxQuery\n    [mode]=\"mode\"\n    class=\"full-screen\"\n    [columnNumber]=\"3\"\n    [queryTemplates]=\"queryTemplates\"\n    [showModeButtons]=\"false\"\n    [datePickerReadonly]=\"true\"\n    [collapseToolbarLayout]=\"CollapseToolbarLayout.Inline\"\n  >\n    <ngx-query-field name=\"subject\" label=\"字段名\" type=\"string\"></ngx-query-field>\n  </ngx-query>\n  <div class=\"line-list\">\n    <zr-table\n      [loading]=\"loading\"\n      [rows]=\"orders\"\n      [ngxQuery]=\"ngxQuery\"\n      [pagination]=\"pagination\"\n      [isCheckbox]=\"true\"\n      [isOpenClickRow]=\"true\"\n      #zrTableDirective=\"zrTableDirective\"\n      zrTable\n      #basicTable\n      (data)=\"loadList($event)\"\n    >\n      <zr-table-col name=\"字段名\" field=\"subject\">\n        <ng-template let-row zrTableCell>\n          <zr-nz-tooltip data=\"{{ row.subject }}\"></zr-nz-tooltip>\n        </ng-template>\n      </zr-table-col>\n\n      <zr-table-col name=\"操作\" [keepDisplay]=\"true\" width=\"160px\">\n        <ng-template let-row zrTableActions>\n          <a [routerLink]=\"['./detail', row.id]\" zrApplyPermission=\"detail\">查看</a>\n        </ng-template>\n      </zr-table-col>\n    </zr-table>\n\n    <div class=\"page-count\">\n      <zr-pagination\n        type=\"normal\"\n        [pageIndex]=\"pageIndex\"\n        [total]=\"total\"\n        [pageSize]=\"pageSize\"\n        [currSize]=\"pageSize\"\n        [pageSizeList]=\"[10, 20, 30, 40, 50, 100]\"\n        #pagination\n      ></zr-pagination>\n    </div>\n  </div>\n</div>",
       "$2"
     ],
     "description": "纯净表格模板片段"
@@ -29,16 +29,16 @@
     "scope": "typescript",
     "prefix": "zr-fb-group",
     "body": [
-      "console.log('$1');",
+      "this.fb.group({\n  field: [null, [Validators.required]]\n});",
       "$2"
     ],
     "description": "快速用FormBuilder创建FormGroup"
   },
   "fb.array": {
     "scope": "typescript",
-    "prefix": "zr-fb-group",
+    "prefix": "zr-fb-array",
     "body": [
-      "console.log('$1');",
+      "this.fb.array({\n  field: [null, [Validators.required]]\n});",
       "$2"
     ],
     "description": "快速用FormBuilder创建FormArray"
@@ -47,79 +47,88 @@
     "scope": "typescript",
     "prefix": "zr-modal",
     "body": [
-      "console.log('$1');",
+      "const modal: NzModalRef = this.modalService.create({\n  nzContent: $1,\n  nzTitle: '标题',\n  nzClassName: 'zr-modal',\n  nzComponentParams: {},\n  nzMaskClosable: false,\n  nzFooter: null\n});\nconst onHidden = modal.afterClose.subscribe(result => {\n  if (result) {\n    $2\n  }\n  onHidden.unsubscribe();\n});",
       "$2"
     ],
-    "description": "快速用"
+    "description": "快速用ngZorro模态框"
   },
   "ngZorro确认框": {
     "scope": "typescript",
-    "prefix": "zr-modal",
+    "prefix": "zr-confirm",
     "body": [
-      "console.log('$1');",
+      "this.modal.confirm({\n  nzTitle: '确定$1？',\n  nzCentered: true,\n  nzOnOk: () => {\n   $2\n  }\n});",
       "$2"
     ],
-    "description": "快速用"
+    "description": "快速用ngZorro确认框"
   },
   "成功消息": {
     "scope": "typescript",
-    "prefix": "zr-msg",
+    "prefix": "zr-msg-success",
     "body": [
-      "console.log('$1');",
+      "this.message.success('$1');",
       "$2"
     ],
     "description": "message"
   },
   "失败消息": {
     "scope": "typescript",
-    "prefix": "zr-msg",
+    "prefix": "zr-msg-error",
     "body": [
-      "console.log('$1');",
+      "this.message.error('$1');",
       "$2"
     ],
     "description": "message"
   },
   "快速接口get方法": {
     "scope": "typescript",
-    "prefix": "zr-",
+    "prefix": "zr-api-get",
     "body": [
-      "console.log('$1');",
+      "/**获取 xxx */\n$1(params?: any): Observable<any> {\n  const url = 'xxxx/xxx/$1';\n  return this.http.get(url, { params });\n}",
       "$2"
     ],
     "description": "Service中快速写get请求函数"
   },
   "快速接口post方法": {
     "scope": "typescript",
-    "prefix": "zr-",
+    "prefix": "zr-api-post",
     "body": [
-      "console.log('$1');",
+      "/** xxx */\n$1(params?: any): Observable<any> {\n  const url = 'xxxx/xxx/$1';\n  return this.http.post(url, params);\n}",
       "$2"
     ],
     "description": "Service中快速写post请求函数"
   },
-  "Observable订阅": {
+  ".subscribe": {
     "scope": "typescript",
-    "prefix": "zr-",
+    "prefix": "zr-subscribe",
     "body": [
-      "console.log('$1');",
+      "subscribe(\n  (res: any) => {\n    if (!res.success) {\n      this.message.error(res.message);\n      return;\n    }\n    this.message.success('$1成功');\n  },\n  err => {\n    this.message.error(err.error.message);\n  }\n);",
       "$2"
     ],
-    "description": "调接口"
+    "description": "快速写.subscribe(...)"
+  },
+  ".pipe(loading).subscribe": {
+    "scope": "typescript",
+    "prefix": "zr-pipe.loading.subscribe",
+    "body": [
+      "pipe(finalize(() => (this.loading = false)))\n.subscribe(\n  (res: any) => {\n    if (!res.success) {\n      this.message.error(res.message);\n      return;\n    }\n    this.message.success('$1成功');\n  },\n  error => {\n    this.message.error(error.error.message);\n  }\n);",
+      "$2"
+    ],
+    "description": "快速写.pipe(loading).subscribe(...)"
   },
   "依赖注入": {
     "scope": "typescript",
-    "prefix": "priv",
+    "prefix": "zr-private-di",
     "body": [
       "private $1Service: $1Service,",
       "$2"
     ],
-    "description": "调接口"
+    "description": "依赖注入"
   },
   "路由模块": {
     "scope": "typescript",
-    "prefix": "zr-",
+    "prefix": "zr-routing-module",
     "body": [
-      "console.log('$1');",
+      "const routes: Routes = RouteExtensions.withHost({ path: '', component: $1 }, []);",
       "$2"
     ],
     "description": "new routing"
